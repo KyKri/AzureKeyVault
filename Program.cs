@@ -16,16 +16,11 @@ namespace KeyVault
             var azureServiceTokenProvider = new AzureServiceTokenProvider();
             var keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
 
-            // Get keys in string format, note -- won't be actual value!
-            getKeysAsync(keyVaultClient, yourKeyVault).GetAwaiter().GetResult();
-        }
+            // Get keys from KeyVault -- note returns <IPage<KeyItem>>
+            // To-Do catch exception for bad key vault URL
+            keyVaultClient.GetKeysAsync($"https://{yourKeyVault}.vault.azure.net/").GetAwaiter().GetResult();
 
-        public static async Task<string> getKeysAsync(KeyVaultClient keyVC, string yourKeyVault)
-        {
-            //To-Do handle exception if keyVault does not exist
-            var keys = await keyVC.GetKeysAsync($"https://{yourKeyVault}.vault.azure.net/");
-            Console.WriteLine(keys.ToString());
-            return keys.ToString();
+            // To-Do Actually use a key for something...
         }
     }
 }
