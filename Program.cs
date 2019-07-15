@@ -12,9 +12,9 @@ namespace KeyVault
     {
         static void Main(string[] args)
         {
+            // Get Key URI from appsettings.json
             IConfigurationBuilder builder = new ConfigurationBuilder().AddJsonFile(Path.GetFullPath(Directory.GetCurrentDirectory()) + "/appsettings.json");
             IConfiguration config = builder.Build();
-            // Replace myKeyURI with a URI from your Azure Key Vault
             string myKeyURI = config.GetSection("myKey").Value;
 
             // Connect using client credentials to access Key Vault
