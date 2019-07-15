@@ -12,7 +12,7 @@ namespace KeyVault
     {
         static void Main(string[] args)
         {
-            IConfigurationBuilder builder = new ConfigurationBuilder().AddJsonFile("C:/Users/k_r_k/OneDrive/Documents/Programming/AZ203/KeyVault/appsettings.json");
+            IConfigurationBuilder builder = new ConfigurationBuilder().AddJsonFile(Path.GetFullPath(Directory.GetCurrentDirectory()) + "/appsettings.json");
             IConfiguration config = builder.Build();
             // Replace myKeyURI with a URI from your Azure Key Vault
             string myKeyURI = config.GetSection("myKey").Value;
