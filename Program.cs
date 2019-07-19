@@ -20,7 +20,8 @@ namespace KeyVault
             AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
             KeyVaultClient keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
 
-            getMyKey(config, keyVaultClient);
+            //getMyKey(config, keyVaultClient);
+            getMySecret(config, keyVaultClient);
         }
 
         static void getMyKey(IConfiguration config, KeyVaultClient keyVault)
@@ -33,6 +34,20 @@ namespace KeyVault
                 KeyBundle key = keyVault.GetKeyAsync(myKeyURI).GetAwaiter().GetResult();
                 // To-Do Actually use a key for something...
                 Console.WriteLine(key.Key);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        static void getMySecret(IConfiguration config, KeyVaultClient keyVault)
+        {
+            string mySecretURI = config.GetSection("mySecret").Value;
+
+            try{
+                SecretBundle secret = keyVault.GetSecretAsync(mySecretURI).GetAwaiter().GetResult();
+                Console.WriteLine(secret.Value);
             }
             catch (Exception ex)
             {
