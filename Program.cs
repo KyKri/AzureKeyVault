@@ -15,16 +15,22 @@ namespace KeyVault
             // Get Key URI from appsettings.json
             IConfigurationBuilder builder = new ConfigurationBuilder().AddJsonFile(Path.GetFullPath(Directory.GetCurrentDirectory()) + "/appsettings.json");
             IConfiguration config = builder.Build();
-            string myKeyURI = config.GetSection("myKey").Value;
 
             // Connect using client credentials to access Key Vault
             AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
             KeyVaultClient keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
 
+            getMyKey(config, keyVaultClient);
+        }
+
+        static void getMyKey(IConfiguration config, KeyVaultClient keyVault)
+        {
+            string myKeyURI = config.GetSection("myKey").Value;
+
             // Get key from Key Vault
             try
             {
-                KeyBundle key = keyVaultClient.GetKeyAsync(myKeyURI).GetAwaiter().GetResult();
+                KeyBundle key = keyVault.GetKeyAsync(myKeyURI).GetAwaiter().GetResult();
                 // To-Do Actually use a key for something...
                 Console.WriteLine(key.Key);
             }
