@@ -13,15 +13,22 @@ namespace KeyVault
         static void Main(string[] args)
         {
             // Get Key URI from appsettings.json
-            IConfigurationBuilder builder = new ConfigurationBuilder().AddJsonFile(Path.GetFullPath(Directory.GetCurrentDirectory()) + "/appsettings.json");
-            IConfiguration config = builder.Build();
+            try
+            {
+                IConfigurationBuilder builder = new ConfigurationBuilder().AddJsonFile(Path.GetFullPath(Directory.GetCurrentDirectory()) + "/appsettings.json");
+                IConfiguration config = builder.Build();
 
-            // Connect using client credentials to access Key Vault
-            AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
-            KeyVaultClient keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
+                // Connect using client credentials to access Key Vault
+                AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
+                KeyVaultClient keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
 
-            //getMyKey(config, keyVaultClient);
-            getMySecret(config, keyVaultClient);
+                //getMyKey(config, keyVaultClient);
+                getMySecret(config, keyVaultClient);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "\n-- Did you forget to create the appsettings.json file in the same directory as Program.cs?");
+            }
         }
 
         static void getMyKey(IConfiguration config, KeyVaultClient keyVault)
