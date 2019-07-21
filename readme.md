@@ -14,5 +14,5 @@ Contents should be as follows:
 - For Secret Operations
 
 {
-    "mySecret: "your key URI (find in Azure Key Vault under the key name and then under version)"
+    "mySecret: "your secret URI (find in Azure Key Vault under the secret name and then under version)"
 }
