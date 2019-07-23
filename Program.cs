@@ -21,8 +21,21 @@ namespace KeyVault
                 AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
                 KeyVaultClient keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
 
-                //getMyKey(config, keyVaultClient);
-                getMySecret(config, keyVaultClient);
+                if (args.Length == 1)
+                {
+                    if (args[0] == "secret")
+                    {
+                        getMySecret(config, keyVaultClient);
+                    }
+                    if (args[0] == "key")
+                    {
+                        getMyKey(config, keyVaultClient);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("You must specify either key or secret!");
+                }
             }
             catch (Exception ex)
             {
@@ -32,6 +45,7 @@ namespace KeyVault
 
         static void getMyKey(IConfiguration config, KeyVaultClient keyVault)
         {
+            // To-Do Make sure keyURI is not null or other possible exceptions
             string myKeyURI = config.GetSection("myKey").Value;
 
             // Get key from Key Vault
@@ -49,6 +63,7 @@ namespace KeyVault
 
         static void getMySecret(IConfiguration config, KeyVaultClient keyVault)
         {
+            // To-Do Make sure secretURI is not null or other possible exceptions
             string mySecretURI = config.GetSection("mySecret").Value;
 
             try{
