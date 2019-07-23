@@ -16,3 +16,6 @@ Contents should be as follows:
 {
     "mySecret: "your secret URI (find in Azure Key Vault under the secret name and then under version)"
 }
+
+## To run this code
+Specify whether to run key or secret functions of the code using a single argument of either "key" for keys or "secret" for secrets
